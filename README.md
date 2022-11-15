@@ -2,6 +2,7 @@ CREATE DATABASE team;
 
 USE team;
 
+REQ: Créer les deux tables en sql:
 CREATE TABLE `effectif` (
   `id` INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   `prenom` VARCHAR(50) NOT NULL,
@@ -19,6 +20,7 @@ CREATE TABLE `departement` (
   `numerodepartement` INT (2) NOT NULL
 );
 
+REQ0: Insérez les données dans les tables:
 INSERT INTO effectif (prenom, profession, dateemb, salaire, commission, id_departement)
  VALUES
  ('Pierre', 'Ingénieur', '1993-10-01', 4000, 3000, 1),
@@ -33,19 +35,47 @@ INSERT INTO departement (nom, ville, numerodepartement)
  ('Commercial', 'Strasbourg', 67),
  ('Developpement', 'Lyon', 69),
  ('Dierction', 'Paris', 75);
-
+ 
+REQ1: Donnez la liste des employés ayant une commision:
 SELECT *
 FROM effectif
 WHERE commission >0;
 
+REQ2: Donnez les prenoms, professions et salaires des employés par profession croissant, et pour chaque profession, par salaire décroissant:
 SELECT prenom, profession, salaire
 FROM effectif
 ORDER BY profession ASC, salaire DESC;
 
+REQ3: Donnez le salaire moyen des employés par nom département:
 SELECT AVG(salaire), id_departement
 FROM effectif
 GROUP BY id_departement;
 
+REQ4: Donnez le salaire moyen du département Developpement:
 SELECT AVG(salaire)
 FROM effectif
 WHERE id_departement= '2';
+
+REQ5: Donnez les numéros de département et leur salaire maximum:
+SELECT D.numerodepartement, MAX(E.salaire) as max 
+FROM effectif E, Departement D 
+WHERE E.id_departement=D.id 
+GROUP BY E.id_departement;
+
+REQ6: Donnez les employés ayant le salaire maximum pour chaque nom département:
+SELECT D.nom, MAX(salaire) 
+FROM Employes E, Departement D 
+WHERE D.id=E.id_departement 
+GROUP BY D.nom;
+
+REQ7: Donnez les différentes professions et leur salaire moyen:
+SELECT profession, AVG(salaire) 
+FROM Employes 
+GROUP BY profession;
+
+REQ8: Donnez le salaire moyen par profession:
+SELECT AVG(salaire) as Moyenne 
+FROM Employes 
+GROUP BY profession 
+ORDER BY Moyenne 
+ASC LIMIT 1;
