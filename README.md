@@ -47,35 +47,36 @@ FROM effectif
 ORDER BY profession ASC, salaire DESC;
 
 REQ3: Donnez le salaire moyen des employés par nom département:
-SELECT AVG(salaire), id_departement
-FROM effectif
-GROUP BY id_departement;
+SELECT nom, AVG(E.salaire)
+FROM effectif E, departement D
+WHERE d.id=E.id_departement
+GROUP BY nom;
 
 REQ4: Donnez le salaire moyen du département Developpement:
 SELECT AVG(salaire)
 FROM effectif
-WHERE id_departement= '2';
+WHERE id_departement= 2;
 
 REQ5: Donnez les numéros de département et leur salaire maximum:
-SELECT D.numerodepartement, MAX(E.salaire) as max 
+SELECT D.numerodepartement, MAX(E.salaire)
 FROM effectif E, Departement D 
 WHERE E.id_departement=D.id 
 GROUP BY E.id_departement;
 
 REQ6: Donnez les employés ayant le salaire maximum pour chaque nom département:
-SELECT D.nom, MAX(salaire) 
-FROM Employes E, Departement D 
+SELECT E.prenom, MAX(salaire) 
+FROM effectif E, Departement D 
 WHERE D.id=E.id_departement 
 GROUP BY D.nom;
 
 REQ7: Donnez les différentes professions et leur salaire moyen:
 SELECT profession, AVG(salaire) 
-FROM Employes 
+FROM effectif 
 GROUP BY profession;
 
 REQ8: Donnez le salaire moyen par profession:
 SELECT AVG(salaire) as Moyenne 
-FROM Employes 
+FROM effectif 
 GROUP BY profession 
 ORDER BY Moyenne 
 ASC LIMIT 1;
